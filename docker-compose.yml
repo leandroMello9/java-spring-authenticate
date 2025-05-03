@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   api:
     build:
@@ -5,21 +7,28 @@ services:
       dockerfile: Dockerfile 
     ports:
       - "8005:8005"
-    depends_on:
-      - banco_de_dados
-    networks:
-      - mysql_network
-  banco_de_dados:
-    container_name: banco_de_dados_mysql
-    image: mysql
-    ports:
-      - "3307:3306"
     environment:
-      MYSQL_USER: root
+      SPRING_DATASOURCE_URL: jdbc:mysql://banco_de_dados:3306/taskdb?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false&connectTimeout=20000&socketTimeout=20000&autoReconnect=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: secret
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_OPEN_IN_VIEW: false
+      SECURITY_JWT_SECRET_KEY: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+      SECURITY_JWT_EXPIRATION_TIME: 3600000
+    depends_on:
+      banco_de_dados:
+        condition: service_healthy
+
+  banco_de_dados:
+    image: mysql
+    container_name: banco_de_dados_mysql
+    ports:
+      - "3306:3306"
+    environment:
       MYSQL_ROOT_PASSWORD: secret
       MYSQL_DATABASE: taskdb
-    networks:
-      - mysql_network
-networks:
-  mysql_network:
-    driver: bridge
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-psecret"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
