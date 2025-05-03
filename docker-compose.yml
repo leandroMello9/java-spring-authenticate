@@ -1,0 +1,25 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    ports:
+      - "8005:8005"
+    depends_on:
+      - banco_de_dados
+    networks:
+      - mysql_network
+  banco_de_dados:
+    container_name: banco_de_dados_mysql
+    image: mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: taskdb
+    networks:
+      - mysql_network
+networks:
+  mysql_network:
+    driver: bridge
