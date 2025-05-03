@@ -44,7 +44,9 @@ jobs:
               distribution: 'temurin'
     
           - name: Rodar testes
-            run: ./mvnw test -Dspring.profiles.active=test
+            run: ./mvnw test -Dspring.datasource.url=jdbc:h2:mem:testdb \
+                  -Dspring.datasource.driver-class-name=org.h2.Driver \
+                  -Dspring.jpa.database-platform=org.hibernate.dialect.H2Dialect
    docker:
     runs-on: ubuntu-latest
     needs: [build, test]
