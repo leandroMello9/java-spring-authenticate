@@ -75,8 +75,8 @@ jobs:
         - name: Build e push da imagem Docker
           uses: docker/build-push-action@v6.15.0
           with:
-            context: ./src
-            file: ./src/Dockerfile
+            context: ./
+            file: ./Dockerfile
             push: true
             tags: |
              leandromelo99/auth-api:v${{ github.run_number }}
