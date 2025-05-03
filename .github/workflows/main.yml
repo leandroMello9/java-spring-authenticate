@@ -23,11 +23,11 @@ jobs:
           - name: Build com Maven (sem testes)
             run: ./mvnw clean package -DskipTests
     
-          - name: Salvar artefatos
-            uses: actions/upload-artifact@v3
-            with:
-              name: app-jar
-              path: target/*.jar
+        #   - name: Salvar artefatos
+        #     uses: actions/upload-artifact@v3
+        #     with:
+        #       name: app-jar
+        #       path: target/*.jar
    test:
         name: Testes da aplicação
         runs-on: ubuntu-latest
