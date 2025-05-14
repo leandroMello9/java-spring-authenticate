@@ -44,7 +44,7 @@
  📬 Endpoints:
  
  🔐 Cadastro
- POST /api/auth/register
+ POST /auth/signup
  {
    "username": "joao",
    "email": "joao@email.com",
@@ -52,9 +52,9 @@
  }
  
  🔑 Login
- POST /api/auth/login
+ POST /auth/login
  {
-   "username": "joao",
+   "email": "joao@email.com"",
    "password": "123456"
  }
  
@@ -65,7 +65,7 @@
  }
  
  🔒 Acesso Protegido
- GET /api/user/profile
+ GET /users/me
  
  Headers:
  
